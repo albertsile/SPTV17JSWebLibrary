@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Network library</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -10,36 +10,36 @@
     </head>
     <body>
         <div class="container">
-          <div class="nav text-light w-100 bg-primary d-flex justify-content-between">
-            <p class="nav nav-link">Сетевая библиотека</p>
-            <ul class="nav nav-item d-flex justify-content-end ">
-                <li class="nav-item">
-                  <a class="nav-link  text-light"  href="#">Active</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link text-light"  href="#">Link</a>
-                </li>
-                <li id="sysout" class="nav-item">
-                  <a  class="nav-link text-light" href="#">Выход</a>
-                </li>
-                <li id="enter-menu" class="nav-item">
-                  <a  class="nav-link text-light" href="#">Вход</a>
-                </li>
-            </ul>
-          </div>
+            <div class="nav text-light w-100 bg-primary d-flex justify-content-between">
+                <p class="nav nav-link">Network library</p>
+                <ul class="nav nav-item d-flex justify-content-end ">
+                    <li class="nav-item">
+                        <a id="active" class="nav-link  text-light"  href="#">Active</a>
+                    </li>
+                    <li id="link" class="nav-item">
+                        <a class="nav-link text-light"  href="#">Link</a>
+                    </li>
+                    <li id="sysout" class="nav-item">
+                        <a  class="nav-link text-light" href="#">Exit</a>
+                    </li>
+                    <li id="enter-menu" class="nav-item">
+                        <a  class="nav-link text-light" href="#">Sign in</a>
+                    </li>
+                </ul>
+            </div>
             <div id="info" class="w-100 text-center"></div>
             <div id="content">
-               <div class="row mt-5 w-100 d-flex justify-content-center">
-               <div class="card border-primary p-2" style="max-width: 30rem;">
-                  <div class="card-header text-center">Введите логин и пароль</div>
-                  <div class="card-body">
-                    <p class="card-text d-flex justify-content-between">Логин: <input class="ml-2" type="text" id="login"></p>
-                    <p class="card-text d-flex justify-content-between">Пароль: <input class="ml-2" type="text" id="password"></p>
-                    <p class="card-text"><button class="btn btn-light w-100" type="button" id="btnEnter">Войти</button</p>
-                  </div>
-                  <p class="w-100 text-center">Нет учетной записи?<br><a id="registration" href="#">Зарегистрироваться</a></p>
-               </div>
-             </div>;
+                <div class="row mt-5 w-100 d-flex justify-content-center">
+                    <div class="card border-primary p-2" style="max-width: 30rem;">
+                        <div class="card-header text-center">Enter login and password</div>
+                        <div class="card-body">
+                            <p class="card-text d-flex justify-content-between">Login: <input class="ml-2" type="text" id="login"></p>
+                            <p class="card-text d-flex justify-content-between">Password: <input class="ml-2" type="text" id="password"></p>
+                            <p class="card-text"><button class="btn btn-light w-100" type="button" id="btnEnter">Log in</button</p>
+                        </div>
+                        <p class="w-100 text-center">Don't have an account?<br><a id="registration" href="#">Registration</a></p>
+                    </div>
+                </div>
             </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

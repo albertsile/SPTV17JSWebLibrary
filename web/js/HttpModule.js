@@ -1,5 +1,3 @@
-/* global Promise */
-
 class HttpModule{
   
   status(response) {  

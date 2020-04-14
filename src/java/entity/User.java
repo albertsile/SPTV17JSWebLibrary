@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package entity;
 
 import java.io.Serializable;
@@ -7,25 +12,27 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
-
+/**
+ *
+ * @author artjo
+ */
 @Entity
 public class User implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
     private String login;
+    @Column(unique = true)
     private String password;
     private String salts;
     private boolean active;
-    @OneToOne
     private Person person;
 
     public User() {
     }
-    // getttres and setters
+
     public User(String login, String password, String salts, boolean active, Person person) {
         this.login = login;
         this.password = password;
@@ -84,13 +91,13 @@ public class User implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 23 * hash + Objects.hashCode(this.id);
-        hash = 23 * hash + Objects.hashCode(this.login);
-        hash = 23 * hash + Objects.hashCode(this.password);
-        hash = 23 * hash + Objects.hashCode(this.salts);
-        hash = 23 * hash + (this.active ? 1 : 0);
-        hash = 23 * hash + Objects.hashCode(this.person);
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.id);
+        hash = 97 * hash + Objects.hashCode(this.login);
+        hash = 97 * hash + Objects.hashCode(this.password);
+        hash = 97 * hash + Objects.hashCode(this.salts);
+        hash = 97 * hash + (this.active ? 1 : 0);
+        hash = 97 * hash + Objects.hashCode(this.person);
         return hash;
     }
 
@@ -129,19 +136,14 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" 
-                + "id=" + id 
-                + ", login=" + login 
-                + ", password=" + password 
-                + ", salts=" + salts 
-                + ", active=" + active 
+        return "User{" + "id=" + id
+                + ", login=" + login
+                + ", password=" + password
+                + ", salts=" + salts
+                + ", active=" + active
                 + ", person=" + person.getFirstname()
                 + " " + person.getLastname()
                 + '}';
     }
-    
-    
-    
-   
-    
+
 }
