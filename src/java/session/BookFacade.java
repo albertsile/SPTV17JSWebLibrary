@@ -12,12 +12,12 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author artjo
+ * @author Aillak
  */
 @Stateless
 public class BookFacade extends AbstractFacade<Book> {
 
-    @PersistenceContext(unitName = "SPTV17JSWebLibraryPU")
+    @PersistenceContext(unitName = "SPTV17JSWebLibrary.PU")
     private EntityManager em;
 
     @Override
@@ -28,4 +28,5 @@ public class BookFacade extends AbstractFacade<Book> {
     public BookFacade() {
         super(Book.class);
     }
+    
 }

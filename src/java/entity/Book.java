@@ -16,7 +16,7 @@ import javax.persistence.Temporal;
 
 /**
  *
- * @author artjo
+ * @author AleksandrM
  */
 @Entity
 public class Book implements Serializable {
@@ -36,7 +36,7 @@ public class Book implements Serializable {
     public Book() {
     }
 
-public Book(String name, String author, String publishedYear, Integer quantity, Integer price, Date dateAdded, boolean active) {
+    public Book(String name, String author, String publishedYear, Integer quantity, Integer price, Date dateAdded, boolean active) {
         this.name = name;
         this.author = author;
         this.publishedYear = publishedYear;
@@ -45,8 +45,6 @@ public Book(String name, String author, String publishedYear, Integer quantity, 
         this.dateAdded = dateAdded;
         this.active = active;
     }
-
-
 
     public Long getId() {
         return id;
@@ -115,14 +113,14 @@ public Book(String name, String author, String publishedYear, Integer quantity, 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 29 * hash + Objects.hashCode(this.id);
-        hash = 29 * hash + Objects.hashCode(this.name);
-        hash = 29 * hash + Objects.hashCode(this.author);
-        hash = 29 * hash + Objects.hashCode(this.publishedYear);
-        hash = 29 * hash + Objects.hashCode(this.quantity);
-        hash = 29 * hash + Objects.hashCode(this.price);
-        hash = 29 * hash + Objects.hashCode(this.dateAdded);
-        hash = 29 * hash + (this.active ? 1 : 0);
+        hash = 23 * hash + Objects.hashCode(this.id);
+        hash = 23 * hash + Objects.hashCode(this.name);
+        hash = 23 * hash + Objects.hashCode(this.author);
+        hash = 23 * hash + Objects.hashCode(this.publishedYear);
+        hash = 23 * hash + Objects.hashCode(this.quantity);
+        hash = 23 * hash + Objects.hashCode(this.price);
+        hash = 23 * hash + Objects.hashCode(this.dateAdded);
+        hash = 23 * hash + (this.active ? 1 : 0);
         return hash;
     }
 

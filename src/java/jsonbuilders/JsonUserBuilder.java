@@ -12,7 +12,7 @@ import javax.json.JsonObjectBuilder;
 
 /**
  *
- * @author artjo
+ * @author Irina
  */
 public class JsonUserBuilder {
 
@@ -21,9 +21,9 @@ public class JsonUserBuilder {
         JsonObjectBuilder job = Json.createObjectBuilder();
         job.add("id", user.getId())
                 .add("login", user.getLogin())
-                .add("active", user.isActive())
+                .add("active",user.isActive())
                 .add("person", jsonPersonBuilder.createJsonPersonObject(user.getPerson()));
         return job.build();
     }
-
+    
 }

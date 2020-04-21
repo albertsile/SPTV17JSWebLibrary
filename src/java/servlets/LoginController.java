@@ -1,13 +1,16 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package servlets;
 
-import entity.Book;
 import entity.Person;
 import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.Calendar;
 import javax.ejb.EJB;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -27,21 +30,18 @@ import util.EncryptPass;
 
 /**
  *
- * @author artjo
+ * @author Irina
  */
 @WebServlet(name = "LoginController", urlPatterns = {
-    "/createUser",
-    "/login",
-    "/logout",})
+    "/createUser", 
+    "/login", 
+    "/logout",
+    
+})
 public class LoginController extends HttpServlet {
-
-    @EJB
-    private PersonFacade personFacade;
-    @EJB
-    private UserFacade userFacade;
-    @EJB
-    private BookFacade bookFacade;
-
+@EJB private PersonFacade personFacade;
+@EJB private UserFacade userFacade;
+@EJB private BookFacade bookFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -54,13 +54,12 @@ public class LoginController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         String json = "";
-        HttpSession session = request.getSession(true);
-        session = request.getSession(false);
         JsonObjectBuilder job = Json.createObjectBuilder();
         EncryptPass ep = new EncryptPass();
         String path = request.getServletPath();
-        switch (path) {
+        switch (path){
             case "/createUser":
                 JsonReader jsonReader = Json.createReader(request.getReader());
                 JsonObject jsonObject = jsonReader.readObject();
@@ -74,7 +73,8 @@ public class LoginController extends HttpServlet {
                 String room = jsonObject.getString("room");
                 String login = jsonObject.getString("login");
                 String password = jsonObject.getString("password");
-                if (null == firstname || "".equals(firstname)
+                // -------- проверка на null и на "" ---------
+                if(null == firstname || "".equals(firstname)
                         || null == firstname || "".equals(firstname)
                         || null == lastname || "".equals(lastname)
                         || null == email || "".equals(email)
@@ -84,20 +84,24 @@ public class LoginController extends HttpServlet {
                         || null == house || "".equals(house)
                         || null == room || "".equals(room)
                         || null == login || "".equals(login)
-                        || null == password || "".equals(password)) {
+                        || null == password || "".equals(password)){
+                    // если хотя бы одна переменная не инициирована
+                    // создаем строку в JSON формате и выходим из switch
                     job.add("actionStatus", "false")
-                            .add("user", "null")
+                            .add("user","null")
                             .add("authStatus", "false")
                             .add("data", "null");
-                    try (Writer writer = new StringWriter()) {
+                    try (Writer writer = new StringWriter()){
                         Json.createWriter(writer).write(job.build());
                         json = writer.toString();
                     }
-                    break;
+                    break; 
                 }
+                // ----------- конец проверки -----------
+                // -------- Дальше работаем с валидными данными --------
                 Person person = null;
                 User user = null;
-                try {
+                try {// защищаем запись в базу от возможных ошибок
                     person = new Person(firstname, lastname, email, city, street, house, room);
                     personFacade.create(person);
                     String salts = ep.createSalts();
@@ -105,27 +109,29 @@ public class LoginController extends HttpServlet {
                     user = new User(login, password, salts, true, person);
                     userFacade.create(user);
                 } catch (Exception e) {
-                    if (person != null && person.getId() != null) {
+                    // чтобы уйти от обращения к несуществующему объекту проверим его на существование
+                    if(person != null && person.getId() != null){
                         personFacade.remove(person);
                     }
-                    if (user != null && user.getId() != null) {
+                    if(user != null && user.getId() != null){
                         userFacade.remove(user);
                     }
                     job.add("actionStatus", "false")
-                            .add("user", "null")
+                            .add("user","null")
                             .add("authStatus", "false")
                             .add("data", "null");
-                    try (Writer writer = new StringWriter()) {
+                    try (Writer writer = new StringWriter()){
                         Json.createWriter(writer).write(job.build());
                         json = writer.toString();
                     }
-                    break;
+                    break; 
                 }
+                //проверки пройдены, user и person созданы
                 job.add("actionStatus", "true")
-                        .add("user", "null")
-                        .add("authStatus", "false")
-                        .add("data", "null");
-                try (Writer writer = new StringWriter()) {
+                            .add("user","null")
+                            .add("authStatus", "false")
+                            .add("data", "null");
+                try (Writer writer = new StringWriter()){
                     Json.createWriter(writer).write(job.build());
                     json = writer.toString();
                 }
@@ -135,121 +141,78 @@ public class LoginController extends HttpServlet {
                 jsonObject = jsonReader.readObject();
                 login = jsonObject.getString("login");
                 password = jsonObject.getString("password");
-                if (null == login || "".equals(login)
-                        || null == password || "".equals(password)) {
+                if(null == login || "".equals(login)
+                        || null == password || "".equals(password)){
+                    // если хотя бы одна переменная не инициирована
+                    // создаем строку в JSON формате и выходим из switch
                     job.add("actionStatus", "false")
-                            .add("user", "null")
+                            .add("user","null")
                             .add("authStatus", "false")
                             .add("data", "null");
-                    try (Writer writer = new StringWriter()) {
+                    try (Writer writer = new StringWriter()){
                         Json.createWriter(writer).write(job.build());
                         json = writer.toString();
                     }
-                    break;
+                    break; 
                 }
                 user = userFacade.findByLogin(login);
-                if (user == null) {
-                    job.add("actionStatus", "false")
-                            .add("user", "null")
+                if(user == null){
+                  job.add("actionStatus", "false")
+                            .add("user","null")
                             .add("authStatus", "false")
                             .add("data", "null");
-                    try (Writer writer = new StringWriter()) {
+                    try (Writer writer = new StringWriter()){
                         Json.createWriter(writer).write(job.build());
                         json = writer.toString();
                     }
                     break;
                 }
                 password = ep.setEncriptPass(password, user.getSalts());
-                if (!password.equals(user.getPassword())) {
+                if(!password.equals(user.getPassword())){
                     job.add("actionStatus", "false")
-                            .add("user", "null")
+                            .add("user","null")
                             .add("authStatus", "false")
                             .add("data", "null");
-                    try (Writer writer = new StringWriter()) {
+                    try (Writer writer = new StringWriter()){
                         Json.createWriter(writer).write(job.build());
                         json = writer.toString();
                     }
                     break;
                 }
-                session = request.getSession(true);
+                HttpSession session = request.getSession(true);
                 session.setAttribute("user", user);
                 JsonUserBuilder jsonUserBuilder = new JsonUserBuilder();
                 job.add("actionStatus", "true")
-                        .add("user", jsonUserBuilder.createJsonUserObject(user))
-                        .add("authStatus", "true")
-                        .add("data", "null");
-                try (Writer writer = new StringWriter()) {
-                    Json.createWriter(writer).write(job.build());
-                    json = writer.toString();
-                }
-                break;
-            case "/logout":
-                session = request.getSession(false);
-                if (session != null) {
-                    session.invalidate();
-                }
-                job.add("actionStatus", "true")
-                        .add("user", "null")
-                        .add("authStatus", "false")
-                        .add("data", "null");
-                try (Writer writer = new StringWriter()) {
-                    Json.createWriter(writer).write(job.build());
-                    json = writer.toString();
-                }
-                break;
-                
-                case "/createBook":
-                    jsonReader = Json.createReader(request.getReader());
-                    jsonObject = jsonReader.readObject();
-                    String name = jsonObject.getString("name");
-                    String author = jsonObject.getString("author");
-                    String publishedYear = jsonObject.getString("publishedYear");
-                    String quantity = jsonObject.getString("quantity");
-                    String price = jsonObject.getString("price");
-                    if (null == name || "".equals(name)
-                            || null == author || "".equals(author)
-                            || null == publishedYear || "".equals(publishedYear)
-                            || null == quantity || "".equals(quantity)
-                            || null == price || "".equals(price)) {
-                        job.add("actionStatus", "false")
-                                .add("user", "null")
-                                .add("authStatus", "false")
-                                .add("data", "null");
-                        try (Writer writer = new StringWriter()) {
-                            Json.createWriter(writer).write(job.build());
-                            json = writer.toString();
-                        }
-                        break;
-                    }
-                    Book book = new Book(
-                            name,
-                            author,
-                            publishedYear,
-                            Integer.parseInt(quantity),
-                            Integer.parseInt(price),
-                            Calendar.getInstance().getTime(),
-                            true
-                    );
-                    bookFacade.create(book);
-
-                    job.add("actionStatus", "true")
-                            .add("user", "null")
+                            .add("user",jsonUserBuilder.createJsonUserObject(user))
                             .add("authStatus", "true")
                             .add("data", "null");
-                    try (Writer writer = new StringWriter()) {
+                    try (Writer writer = new StringWriter()){
                         Json.createWriter(writer).write(job.build());
                         json = writer.toString();
                     }
-
-                    break;
+                break;
+            case "/logout":
+                session = request.getSession(false);
+                if(session != null){
+                    session.invalidate();
+                }
+                job.add("actionStatus", "true")
+                            .add("user","null")
+                            .add("authStatus", "false")
+                            .add("data", "null");
+                try (Writer writer = new StringWriter()){
+                    Json.createWriter(writer).write(job.build());
+                    json = writer.toString();
+                }
+                break;
         }
         // Отлавливаем json переменную, проверяем содержание 
         // и если оно есть, отправляем клиенту
-        if (json != null && !"".equals(json)) {
+        if(json != null && !"".equals(json)){
             try (PrintWriter out = response.getWriter()) {
                 out.println(json);
             }
-
+            
         }
     }
 
